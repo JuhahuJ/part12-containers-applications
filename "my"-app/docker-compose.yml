@@ -1,0 +1,23 @@
+services:
+  app:
+    image: phonebook-frontend
+    volumes:
+      - ./frontend/:/usr/src/app
+    container_name: phonebook-frontend
+
+  server:
+    image: phonebook-backend
+    volumes:
+      - ./backend/:/usr/src/app
+    container_name: phonebook-backend
+
+  nginx:
+    image: nginx:1.20.1
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: reverse-proxy
+    depends_on:
+      - app
+      - server
